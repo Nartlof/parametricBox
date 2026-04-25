@@ -45,6 +45,9 @@ generate_box = 1; // [0:no,1:yes]
 // Generate a lid.
 generate_lid = 1; // [0:no,1:yes]
 
+// Generate a fillet on the base to avoid elephant foot. It is created by extruding a rounded square with the dimensions of a half of the thickness of the walls. The height of the extrusion is half the thickness of the walls.
+generate_fillet = 1; // [0:no,1:yes]
+
 // Checking if the values are valid. If not, the script will default to the minimum or maximum values.
 
 _LidHeight = (LidHeight < InternalHeight - ShadowMask) ? LidHeight : InternalHeight - ShadowMask;
@@ -75,6 +78,28 @@ module roundedSquare(sizeX, sizeY, cornerRadius) {
   }
 }
 
+// This module creates a fillet on the base to avoid elephant foot. 
+// It is created by extruding a rounded square with the dimensions of a half of the thickness of the walls.
+// The height of the extrusion is half the thickness of the walls.
+module baseFillet() {
+  if (generate_fillet == 1) {
+    difference() {
+      translate(v=[-1, -1, -1])
+        cube(size=[InternalWidthX + Thickness * 2 + 2, InternalWidthY + Thickness * 2 + 2, Thickness / 2 + 1], center=false);
+      hull() {
+        translate([Thickness / 2, Thickness / 2, 0]) {
+          linear_extrude(height=Thickness / 2, center=false, convexity=10, twist=0, slices=20, scale=1.0)
+            roundedSquare(InternalWidthX + Thickness, InternalWidthY + Thickness, _CornerRadius - Thickness / 2);
+        }
+        translate([0, 0, Thickness / 2]) {
+          linear_extrude(height=Thickness / 2, center=false, convexity=10, twist=0, slices=20, scale=1.0)
+            roundedSquare(InternalWidthX + Thickness * 2, InternalWidthY + Thickness * 2, _CornerRadius);
+        }
+      }
+    }
+  }
+}
+
 // The module that creates the base of the box. 
 // It is a square with rounded corners and a hole in the middle to create the internal space of the box.
 module boxBase() {
@@ -100,6 +125,7 @@ module boxBase() {
       linear_extrude(height=InternalHeight, center=false, convexity=10, twist=0, slices=20, scale=1.0)
         roundedSquare(InternalWidthX, InternalWidthY, _InternalCornerRadius);
     }
+    baseFillet();
   }
 }
 
@@ -128,6 +154,7 @@ module boxLid() {
         linear_extrude(height=_LipHeight + 1, center=false, convexity=10, twist=0, slices=20, scale=1.0)
           roundedSquare(InternalWidthX + lipThickness * 2, InternalWidthY + lipThickness * 2, _InternalCornerRadius + lipThickness);
     }
+    baseFillet();
   }
 }
 /*
