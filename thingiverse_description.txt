@@ -1,0 +1,41 @@
+# Parametric Box
+
+A simple OpenSCAD parametric box design with a friction-fit lid and shadow mask for easy opening. This model is fully customizable for internal dimensions, wall thickness, corner radius, tolerance, lip height, and more.
+
+## Features
+
+- **Parametric design** for fast customization
+- **Friction-fit lid** with adjustable tolerance
+- **Shadow mask** for easy lid grip
+- **Optional lid-retaining lip** and rounded corners
+- **OpenSCAD compatible** for 3D printing and modification
+
+## How to use
+
+1. Open `parametricBox.scad` in OpenSCAD.
+2. Adjust the parameters at the top of the file to fit your needs.
+3. Render (F6) and export as STL for printing.
+
+## Customizable parameters
+
+- Internal width / height
+- Lid height
+- Wall thickness
+- Corner radius
+- Tolerance
+- Shadow mask
+- Lip height
+- Lip thickness
+
+## License
+
+Creative Commons CC0 1.0 Universal. Free to use, modify, and distribute.
+
+## Author
+
+Carlos Eduardo Foltran
+
+## Links
+
+- GitHub: https://github.com/Nartlof/parametricBox
+- Thingiverse: https://www.thingiverse.com/thing:7341933
