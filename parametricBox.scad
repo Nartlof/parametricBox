@@ -146,6 +146,7 @@ if (generate_box == 1) {
   boxBase();
 }
 if (generate_lid == 1) {
-  translate([InternalWidthX + Thickness * 2 + 1, 0, 0])
+  translation = (generate_box == 1) ? [InternalWidthX + Thickness * 2 + 1, 0, 0] : [0, 0, 0];
+  translate(translation)
     boxLid();
 }
