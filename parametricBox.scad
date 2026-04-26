@@ -37,7 +37,7 @@ ShadowMask = 1;
 // Lip. The heitght of the lip on top of the box to hold the lid in place. If it is 0, there will be no lip and the lid will fall off. 
 LipHeight = 8;
 // Lip thickness. The thickness of the lip on top of the box to hold the lid in place. It must be less than or equal half the thickness of the walls. If it is 0, there will be no lip and the lid will fall off.
-LipThickness = 1;
+LipThickness = 0.9;
 
 // Generate the bottom.
 generate_box = 1; // [0:no,1:yes]
@@ -117,7 +117,7 @@ module boxBase() {
       if (_LipHeight > 0 && _LipThickness > 0) {
         translate([Thickness - lipThickness, Thickness - lipThickness, baseHeight])
           linear_extrude(height=_LipHeight, center=false, convexity=10, twist=0, slices=20, scale=1.0)
-            roundedSquare(InternalWidthX + Thickness * 2 - lipThickness * 2, InternalWidthY + Thickness * 2 - lipThickness * 2, _InternalCornerRadius + lipThickness);
+            roundedSquare(InternalWidthX + +lipThickness * 2, InternalWidthY + lipThickness * 2, _InternalCornerRadius + lipThickness);
       }
     }
     // This is the inner part of the base of the box. It is created by extruding a rounded square with the dimensions of the internal space. The height of the extrusion is the internal height.
