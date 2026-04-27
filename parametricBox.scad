@@ -24,29 +24,32 @@ InternalWidthY = 60;
 InternalHeight = 40;
 // The internal height of the lid do not add internal height, only tells where the space is splited.
 LidHeight = 10;
+
 // Thickness of the walls of the box. The external dimensions will be Internal dimensions + 2 * Thickness.
-Thickness = 2;
+Thickness = 2; // 0.1
+
 // Radius of the corners of the box. If it is 0, the corners will be sharp.
 // If it is greater than 0, the corners will be rounded. 
 // If greater than the thickness, the corners will be rounded on the inside as well.
-CornerRadius = 5;
+CornerRadius = 5; // 0.1
+
 // The tolerance is the amount of space between the lid and the box to allow them to fit together by friction.
-Tolerance = 0.25;
+Tolerance = 0.1; // 0.05
+
 // ShadowMask is the amount of space between the lid and the box to allow them to be easily opened by hand. It is added to the tolerance, so it also helps with the fit of the lid.
-ShadowMask = 1;
+ShadowMask = 1; // 0.1
+
 // Lip. The heitght of the lip on top of the box to hold the lid in place. If it is 0, there will be no lip and the lid will fall off. 
 LipHeight = 8;
+
 // Lip thickness. The thickness of the lip on top of the box to hold the lid in place. It must be less than or equal half the thickness of the walls. If it is 0, there will be no lip and the lid will fall off.
-LipThickness = 0.9;
+LipThickness = 1; // 0.1
 
-// Generate the bottom.
-generate_box = 1; // [0:no,1:yes]
-
-// Generate a lid.
-generate_lid = 1; // [0:no,1:yes]
+// What to generate. You can choose to generate only the box, only the lid, or both. If you generate both, they will be placed next to each other for easy printing.
+WhatToGenerate = 0; // [-1:"Box", 0:"Both", 1:"Lid"]
 
 // Generate a fillet on the base to avoid elephant foot. It is created by extruding a rounded square with the dimensions of a half of the thickness of the walls. The height of the extrusion is half the thickness of the walls.
-generate_fillet = 1; // [0:no,1:yes]
+generate_fillet = 1; // [0:"No", 1:"Yes"]
 
 // Checking if the values are valid. If not, the script will default to the minimum or maximum values.
 
@@ -169,11 +172,11 @@ difference() {
     cube(size=[20, 20, 100], center=false);
 }
 */
-if (generate_box == 1) {
+if (WhatToGenerate <= 0) {
   boxBase();
 }
-if (generate_lid == 1) {
-  translation = (generate_box == 1) ? [InternalWidthX + Thickness * 2 + 1, 0, 0] : [0, 0, 0];
+if (WhatToGenerate >= 0) {
+  translation = (WhatToGenerate == 0) ? [InternalWidthX + Thickness * 2 + 1, 0, 0] : [0, 0, 0];
   translate(translation)
     boxLid();
 }
